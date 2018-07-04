@@ -34,21 +34,25 @@ class Main extends React.Component {
     }
   };
 
-  prepareDataForSubmit = () => {
+  prepareDataForSubmit = (rawData, columnOrder) => {
     /*
     payload should look like
-    { 
-      "value": [[
+    { "values": [[
         value for column A, value for column B ....
       ]]
     }
     */
     let payload = [];
-    [...this.state].map(field => {
-      payload.push([field]);
-    });
-    console.log(payload);
-    return payload;
+    payload = columnOrder.map((columnValue, idx) => {
+      if (idx === 0) {
+        return Date.now();
+      } else if (rawData[columnValue.toLowerCase()]) {
+        return rawData[columnValue.toLowerCase()];
+      } else {
+        return "";
+      }
+    })
+    return JSON.stringify({ "values": [payload] });
   };
 
   queryParamObjToQueryString = (qParamsObj) => {
@@ -76,7 +80,6 @@ class Main extends React.Component {
   };
   
   saveDataToGoogleSheets = () => {
-    const value = this.prepareDataForSubmit();
     const oauth2TokenAPIURL = this.generateOauth2URL(this.props.CLIENT_ID, this.props.CLIENT_SECRET, this.props.REFRESH_TOKEN);
     return fetch(oauth2TokenAPIURL, {
       method: 'POST',
@@ -93,6 +96,8 @@ class Main extends React.Component {
       return data;
     })
     .then((authData) => {
+      const value = this.prepareDataForSubmit(this.state, this.props.columnOrder);
+      console.log(value)
       const qParamsObj = {
         valueInputOption: "USER_ENTERED",
         includeValuesInResponse: true, 
@@ -104,13 +109,14 @@ class Main extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Content-Length': value.length.toString()
         },
-        body: JSON.stringify(value)
+        body: value
       });
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.error(responseJson)
+      console.log(responseJson)
       return responseJson;
     })
     .catch((error) => {

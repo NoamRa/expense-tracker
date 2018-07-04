@@ -6,7 +6,7 @@ import conf from './conf/config'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightgray',
+    backgroundColor: '#EEE',
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 50
@@ -18,12 +18,7 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         <Main
-          spreadsheetId={conf.spreadsheetId}
-          spreadSheetName={conf.spreadSheetName}
-          CLIENT_ID={conf.CLIENT_ID}
-          CLIENT_SECRET={conf.CLIENT_SECRET}
-          REFRESH_TOKEN={conf.REFRESH_TOKEN}
-          SCOPE={conf.SCOPE}
+          {...conf}
         />
       </View>
     );
