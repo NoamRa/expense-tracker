@@ -1,5 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, Button, AsyncStorage  } from 'react-native';
+import { 
+  TouchableOpacity, 
+  Text, 
+  View, 
+  Button, 
+  ToastAndroid,
+  Keyboard
+} from 'react-native';
 import TitleAndTextInput from './lib/TitleAndTextInput'
 import {
   formatDate,
@@ -52,6 +59,7 @@ class Main extends React.Component {
   }
   
   saveDataToGoogleSheets = () => {
+    Keyboard.dismiss();
     const oauth2TokenAPIURL = generateOauth2URL(this.props.CLIENT_ID, this.props.CLIENT_SECRET, this.props.REFRESH_TOKEN);
     return fetch(oauth2TokenAPIURL, {
       method: 'POST',
@@ -92,7 +100,7 @@ class Main extends React.Component {
       return responseJson;
     })
     .then((responseJson) => {
-      alert("Sent to Google Sheets Successfuly")
+      ToastAndroid.show('Sucess! Sent to Google Sheets', ToastAndroid.SHORT);
       this.initForm()
     })
     .catch((error) => {
