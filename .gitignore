@@ -16,3 +16,5 @@ yarn-error.log*
 
 # config
 conf/config.js
+android/
+ios/
