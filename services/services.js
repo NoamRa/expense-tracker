@@ -1,9 +1,11 @@
 const formatDate = (dtObj) => {
-  return `${dtObj.toISOString().split('T')[0]}`;
+  return dtObj.toLocaleDateString();
+  // return `${dtObj.toISOString().split('T')[0]}`;
 };
 
 const formatTime = (dtObj) => {
-  return `${dtObj.toISOString().split('T')[1].split('.')[0]}`;
+  return dtObj.toLocaleTimeString();
+  // return `${dtObj.toISOString().split('T')[1].split('.')[0]}`;
 };
 
 const prepareDataForSubmit = (rawData, columnOrder) => {
