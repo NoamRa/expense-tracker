@@ -18,3 +18,4 @@ yarn-error.log*
 conf/config.js
 android/
 ios/
+.idea/
