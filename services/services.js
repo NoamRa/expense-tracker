@@ -8,6 +8,18 @@ const formatTime = (dtObj) => {
   // return `${dtObj.toISOString().split('T')[1].split('.')[0]}`;
 };
 
+const objectKeysToLowerCase = (obj) => {
+  // recives an object and returns the same object with first level keys in lowerCase
+  let newobj={}
+  let key, keys = Object.keys(obj);
+  let n = keys.length;
+  while (n--) {
+    key = keys[n];
+    newobj[key.toLowerCase()] = obj[key];
+  }
+  return newobj;
+}
+
 const prepareDataForSubmit = (rawData, columnOrder) => {
   /*
   payload should look like
@@ -16,12 +28,13 @@ const prepareDataForSubmit = (rawData, columnOrder) => {
     ]]
   }
   */
+  const dataLowerCase = objectKeysToLowerCase(rawData)
   let payload = [];
   payload = columnOrder.map((columnValue, idx) => {
     if (idx === 0) {
       return Date.now();
-    } else if (rawData[columnValue.toLowerCase()]) {
-      return rawData[columnValue.toLowerCase()];
+    } else if (dataLowerCase[columnValue.toLowerCase()]) {
+      return dataLowerCase[columnValue.toLowerCase()];
     } else {
       return "";
     }

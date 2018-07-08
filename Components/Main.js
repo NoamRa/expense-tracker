@@ -7,7 +7,6 @@ import {
   ToastAndroid,
   Keyboard
 } from 'react-native';
-import TitleAndTextInput from './lib/TitleAndTextInput'
 import {
   formatDate,
   formatTime,
@@ -16,10 +15,15 @@ import {
   generateGoogleSheetsAppendURL,
 } from '../services/services'
 
+import TitleAndTextInput from './lib/TitleAndTextInput'
+import TitleAndPicker from './lib/TitleAndPicker';
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      category: this.props.categories[0].name,
+    };
   }
 
   componentDidMount() {
@@ -34,6 +38,10 @@ class Main extends React.Component {
       payee: "",
       amount: "",
       disableSubmit: false,
+      category: this.props.categories[0].name,
+      subCategory: this.props.categories[0].subCat[0],
+      paymentMethod: this.props.paymentMethods[0],
+      description: "",
     });
   };
 
@@ -109,6 +117,21 @@ class Main extends React.Component {
   };
   
   render() {
+    const categoryItems = this.props.categories.map((cat) => (
+      { label: cat.name, value: cat.name }
+    ));
+
+    const selectedSatObj = this.props.categories.find(cat => (
+      cat.name === this.state.category
+    ))
+    const subCategoryItems = selectedSatObj.subCat.map((sc) => (
+      { label: sc, value: sc }
+    ));
+
+    const paymentMethodsItems = this.props.paymentMethods.map((pm) => (
+      { label: pm, value: pm }
+    ));
+
     return (
       <View>
         <Text>Expense Manager</Text>
@@ -138,6 +161,33 @@ class Main extends React.Component {
           keyboardType={'numeric'}
         />
 
+        <TitleAndPicker
+          title="Category"
+          selectedValue={this.state.category}
+          onValueChange={(value) => this.setState({ category: value })}
+          items={categoryItems}
+        />
+
+        <TitleAndPicker
+          title="Sub-Category"
+          selectedValue={this.state.subCategory}
+          onValueChange={(value) => this.setState({ subCategory: value })}
+          items={subCategoryItems}
+        />
+
+        <TitleAndPicker
+          title="Payment Method"
+          selectedValue={this.state.paymentMethod}
+          onValueChange={(value) => this.setState({ paymentMethod: value })}
+          items={paymentMethodsItems}
+        />
+
+        <TitleAndTextInput
+          title="Description"
+          placeholder=""
+          onChangeText={(value) => this.setState({ description: value })}
+          value={this.state.description}
+        />
 
         <Button
           onPress={this.saveDataToGoogleSheets}
@@ -147,11 +197,11 @@ class Main extends React.Component {
           style={{paddingTop: 50}}
         />
 
-        <View style={{paddingTop: 20}}>
+        {/* <View style={{paddingTop: 20}}>
           <Text>Report Time: {`${this.state.date} ${this.state.time}`}</Text>
           <Text>Payee: {this.state.payee}</Text>
           <Text>Amount: {this.state.amount}</Text>
-        </View>
+        </View> */}
     </View>
     );
   }
