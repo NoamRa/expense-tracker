@@ -21,9 +21,7 @@ import TitleAndPicker from './lib/TitleAndPicker';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      category: this.props.categories[0].name,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -38,9 +36,8 @@ class Main extends React.Component {
       payee: "",
       amount: "",
       disableSubmit: false,
-      category: this.props.categories[0].name,
-      subCategory: this.props.categories[0].subCat[0],
-      paymentMethod: this.props.paymentMethods[0],
+      category: "",
+      paymentMethod: "",
       description: "",
     });
   };
@@ -117,20 +114,25 @@ class Main extends React.Component {
   };
   
   render() {
-    const categoryItems = this.props.categories.map((cat) => (
+    const categoryItems = [{ label: "Select category", value: "" },
+    ...this.props.categories.map((cat) => (
       { label: cat.name, value: cat.name }
-    ));
+    ))];
 
     const selectedSatObj = this.props.categories.find(cat => (
       cat.name === this.state.category
     ))
-    const subCategoryItems = selectedSatObj.subCat.map((sc) => (
-      { label: sc, value: sc }
-    ));
+    const subCategoryItems = selectedSatObj ? 
+      selectedSatObj.subCat.map((sc) => (
+        { label: sc, value: sc }
+      ))
+      :
+      [{ label: "N/A", value: "" }];
 
-    const paymentMethodsItems = this.props.paymentMethods.map((pm) => (
+    const paymentMethodsItems = [{ label: "Select Payment Method", value: "" },
+    ...this.props.paymentMethods.map((pm) => (
       { label: pm, value: pm }
-    ));
+    ))];
 
     return (
       <View>
