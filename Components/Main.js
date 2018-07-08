@@ -64,6 +64,7 @@ class Main extends React.Component {
   }
   
   saveDataToGoogleSheets = () => {
+    this.setState({ disableSubmit: true });
     Keyboard.dismiss();
     const oauth2TokenAPIURL = generateOauth2URL(this.props.CLIENT_ID, this.props.CLIENT_SECRET, this.props.REFRESH_TOKEN);
     return fetch(oauth2TokenAPIURL, {
