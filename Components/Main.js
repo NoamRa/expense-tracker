@@ -115,7 +115,7 @@ class Main extends React.Component {
   };
   
   render() {
-    const categoryItems = [{ label: "Select category", value: "" },
+    const categoryItems = [{ label: "Select a Category", value: "" },
     ...this.props.categories.map((cat) => (
       { label: cat.name, value: cat.name }
     ))];
@@ -123,6 +123,7 @@ class Main extends React.Component {
     const selectedSatObj = this.props.categories.find(cat => (
       cat.name === this.state.category
     ))
+    
     const subCategoryItems = selectedSatObj ? 
       selectedSatObj.subCat.map((sc) => (
         { label: sc, value: sc }
@@ -137,7 +138,10 @@ class Main extends React.Component {
 
     return (
       <View>
-        <Text>Expense Manager</Text>
+        <Text style={{fontSize: 20, color: 'black'}}>
+          Expense Manager
+        </Text>
+
         <TouchableOpacity
           onPress={this.openAndroidDatePicker}
         >
@@ -192,19 +196,16 @@ class Main extends React.Component {
           value={this.state.description}
         />
 
-        <Button
-          onPress={this.saveDataToGoogleSheets}
-          title="Submit"
-          disabled={this.state.disableSubmit}
-          color={"green"}
-          style={{paddingTop: 50}}
-        />
-
-        {/* <View style={{paddingTop: 20}}>
-          <Text>Report Time: {`${this.state.date} ${this.state.time}`}</Text>
-          <Text>Payee: {this.state.payee}</Text>
-          <Text>Amount: {this.state.amount}</Text>
-        </View> */}
+        <View
+          style={{paddingTop: 10}}
+        >
+          <Button
+            onPress={this.saveDataToGoogleSheets}
+            title="Submit"
+            disabled={this.state.disableSubmit}
+            color={"green"}
+          />
+        </View>
     </View>
     );
   }
