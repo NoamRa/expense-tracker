@@ -14,7 +14,7 @@
     "ios": "react-native run-ios",
     "test": "jest",
     "android-emulator": "C:\\Users\\noamr\\AppData\\Local\\Android\\Sdk\\tools\\emulator -avd Pixel_API_25",
-    "open-apk-folder" : "start .\\android\\app\\build\\outputs\\apk",
+    "open-apk-folder": "start .\\android\\app\\build\\outputs\\apk",
     "build-android": "cd android && gradlew assembleRelease && cd .. && npm run open-apk-folder",
     "generate-icons": "gm convert .\\icon\\expense-tracker-icon.png -resize 72x72 .\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png && gm convert .\\icon\\expense-tracker-icon.png -resize 48x48 .\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png && gm convert .\\icon\\expense-tracker-icon.png -resize 96x96 .\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png && gm convert .\\icon\\expense-tracker-icon.png -resize 144x144 .\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png && gm convert .\\icon\\expense-tracker-icon.png -resize 192x192 .\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
   },
@@ -24,6 +24,6 @@
   "dependencies": {
     "react": "16.3.1",
     "react-native": "~0.55.2",
-    "react-native-elements": "^0.19.1"
+    "react-native-modal-datetime-picker": "^6.0.0"
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-import { 
-  TouchableOpacity, 
+import {  
   Text, 
   View, 
   Button, 
@@ -14,22 +13,23 @@ import {
   prepareDataForSubmit,
   generateOauth2URL,
   generateGoogleSheetsAppendURL,
-} from '../services/services'
+} from '../services/services';
 
-import TitleAndTextInput from './lib/TitleAndTextInput'
+import TitleAndTextInput from './lib/TitleAndTextInput';
 import TitleAndPicker from './lib/TitleAndPicker';
+import DateTimeModal from './lib/DateTimeModal';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyboardAvoidingViewEnabled: true,
+      keyboardAvoidingViewEnabled: false,
     };
-  }
+  };
 
   componentDidMount() {
     this.initForm();
-  }
+  };
 
   initForm = () => {
     this.now = new Date();
@@ -45,26 +45,16 @@ class Main extends React.Component {
     });
   };
 
-  openAndroidDatePicker = async (stateKey, options) => {
-    try {
-      var newState = {};
-      const {action, year, month, day} = await DatePickerAndroid.open(options);
-      if (action === DatePickerAndroid.dismissedAction) {
-        newState[stateKey + 'Text'] = 'dismissed';
-      } else {
-        var date = new Date(year, month, day);
-        newState[stateKey + 'Text'] = date.toLocaleDateString();
-        newState[stateKey + 'Date'] = date;
-      }
-      this.setState(newState);
-    } catch ({code, message}) {
-      console.warn(`Error in example '${stateKey}': `, message);
-    }
-  };
+  handleDateTimeChange = (newDate) => {
+    this.setState({ 
+      date: formatDate(newDate),
+      time: formatTime(newDate),
+    });
+  }
 
   validate = () => {
     this.setState({ disableSubmit: true });
-  }
+  };
   
   saveDataToGoogleSheets = () => {
     this.setState({ disableSubmit: true });
@@ -145,20 +135,15 @@ class Main extends React.Component {
         behavior="position"
         keyboardVerticalOffset={40}
       >
-        <Text style={{fontSize: 20, color: 'black'}}>
+        <Text style={{fontSize: 25, color: 'black', paddingBottom: 5}}>
           Expense Tracker
         </Text>
 
-        <TouchableOpacity
-          onPress={this.openAndroidDatePicker}
-        >
-          <TitleAndTextInput
-            title="Date"
-            placeholder="Payee Name"
-            // onChangeText={this.handlePayeeChange}
-            value={`${this.state.date} - ${this.state.time}`}
-          />
-        </TouchableOpacity>
+        <DateTimeModal
+          date={this.state.date}
+          time={this.state.time}
+          onDateTimeChange={this.handleDateTimeChange}
+        />
 
         <TitleAndTextInput
           title="Payee"
@@ -217,7 +202,7 @@ class Main extends React.Component {
         </View>
       </KeyboardAvoidingView>
     );
-  }
+  };
 }
 
 export default Main;
