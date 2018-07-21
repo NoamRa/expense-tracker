@@ -143,7 +143,7 @@ class Main extends React.Component {
       <KeyboardAvoidingView
         enabled={this.state.keyboardAvoidingViewEnabled}
         behavior="position"
-        keyboardVerticalOffset={50}
+        keyboardVerticalOffset={40}
       >
         <Text style={{fontSize: 20, color: 'black'}}>
           Expense Tracker
@@ -172,7 +172,7 @@ class Main extends React.Component {
           placeholder="Amount paid"
           onChangeText={(value) => this.setState({ amount: value })}
           value={this.state.amount}
-          keyboardType={'numeric'}
+          keyboardType={"numeric"}
         />
 
         <TitleAndPicker
