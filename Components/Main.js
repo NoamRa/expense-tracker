@@ -5,7 +5,8 @@ import {
   View, 
   Button, 
   ToastAndroid,
-  Keyboard
+  Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   formatDate,
@@ -21,7 +22,9 @@ import TitleAndPicker from './lib/TitleAndPicker';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      keyboardAvoidingViewEnabled: true,
+    };
   }
 
   componentDidMount() {
@@ -137,9 +140,13 @@ class Main extends React.Component {
     ))];
 
     return (
-      <View>
+      <KeyboardAvoidingView
+        enabled={this.state.keyboardAvoidingViewEnabled}
+        behavior="position"
+        keyboardVerticalOffset={50}
+      >
         <Text style={{fontSize: 20, color: 'black'}}>
-          Expense Manager
+          Expense Tracker
         </Text>
 
         <TouchableOpacity
@@ -149,7 +156,7 @@ class Main extends React.Component {
             title="Date"
             placeholder="Payee Name"
             // onChangeText={this.handlePayeeChange}
-            value={`${this.state.date} ${this.state.time}`}
+            value={`${this.state.date} - ${this.state.time}`}
           />
         </TouchableOpacity>
 
@@ -191,9 +198,11 @@ class Main extends React.Component {
 
         <TitleAndTextInput
           title="Description"
-          placeholder=""
+          placeholder="Enter description"
           onChangeText={(value) => this.setState({ description: value })}
           value={this.state.description}
+          onFocus={() => this.setState({ keyboardAvoidingViewEnabled: true })}
+          onBlur={() => this.setState({ keyboardAvoidingViewEnabled: false })}
         />
 
         <View
@@ -206,7 +215,7 @@ class Main extends React.Component {
             color={"green"}
           />
         </View>
-    </View>
+      </KeyboardAvoidingView>
     );
   }
 }

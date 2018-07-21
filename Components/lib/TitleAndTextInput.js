@@ -24,6 +24,8 @@ const TitleAndTextInput = (props) => {
         value={props.value}
         onChangeText={props.onChangeText}
         keyboardType={props.keyboardType}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
       />
     </View>
   )
