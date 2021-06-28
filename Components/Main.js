@@ -103,6 +103,8 @@ class Main extends React.Component {
       this.initForm()
     })
     .catch((error) => {
+      ToastAndroid.show(`Fail! ${error.message || error}`, ToastAndroid.SHORT);
+      this.setState({ disableSubmit: false });
       console.error(error);
     })
   };
